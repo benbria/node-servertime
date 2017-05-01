@@ -1,181 +1,291 @@
-## Classes
+# [servertime](https://github.com/benbria/node-servertime#readme) *2.0.1*
 
-<dl>
-<dt><a href="#Timer">Timer</a></dt>
-<dd><p>Keeps track of timing data for events and turns that data into a <code>server-timing</code> header.</p>
-</dd>
-</dl>
+> Add server-timing header to your node.js app, with nanosecond precision.
 
-## Functions
 
-<dl>
-<dt><a href="#middleware">middleware([options])</a> ⇒ <code>function</code></dt>
-<dd><p>Returns an express-style middleware that automatically adds <code>res.serverTiming</code> to the resposne object.</p>
-</dd>
-<dt><a href="#addToResponse">addToResponse(res, [options])</a> ⇒ <code>undefined</code></dt>
-<dd><p>Sets up a request to</p>
-</dd>
-<dt><a href="#start">start(slug, [label])</a> ⇒ <code>function</code></dt>
-<dd><p>Returns a mini-middleware that calls <code>res.serverTiming.start(slug, label)</code>.</p>
-</dd>
-<dt><a href="#end">end(slug)</a> ⇒ <code>function</code></dt>
-<dd><p>Returns a mini-middleware that calls <code>res.serverTiming.end(slug, label)</code>.</p>
-</dd>
-<dt><a href="#timeMiddleware">timeMiddleware(slug, [label], middleware)</a> ⇒ <code>function</code></dt>
-<dd><p>Wraps a middleware and adds timing data for it to the server-timing header.</p>
-</dd>
-<dt><a href="#createTimer">createTimer([options])</a> ⇒ <code><a href="#Timer">Timer</a></code></dt>
-<dd><p>Create a new Timer object.</p>
-</dd>
-</dl>
+### src/index.js
 
-<a name="Timer"></a>
 
-## Timer
+#### new Timer() 
+
 Keeps track of timing data for events and turns that data into a `server-timing` header.
 
-**Kind**: global class  
 
-* [Timer](#Timer)
-    * [.start(slug, [label])](#Timer+start) ⇒ <code>undefined</code>
-    * [.end(slug)](#Timer+end) ⇒ <code>undefined</code>
-    * [.setTime(slug, [label], ms)](#Timer+setTime) ⇒ <code>undefined</code>
-    * [.timePromise(slug, [label], promise)](#Timer+timePromise) ⇒ <code>undefined</code>
-    * [.getHeader()](#Timer+getHeader) ⇒ <code>string</code>
 
-<a name="Timer+start"></a>
 
-### timer.start(slug, [label]) ⇒ <code>undefined</code>
+
+
+##### Returns
+
+
+- `Void`
+
+
+
+#### Timer.start(slug[, label]) 
+
 Start timing an event.
 
-**Kind**: instance method of [<code>Timer</code>](#Timer)  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| slug | <code>string</code> |  | The slug to use for timing.  The same slug must be supplied to `end(slug)` in order   for this timing to show up in the final header. |
-| [label] | <code>string</code> | <code>null</code> | Label to use in the server-timing header. |
 
-<a name="Timer+end"></a>
 
-### timer.end(slug) ⇒ <code>undefined</code>
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| slug | `string`  | - The slug to use for timing. The same slug must be supplied to `end(slug)` in order   for this timing to show up in the final header. | &nbsp; |
+| label | `string`  | - Label to use in the server-timing header. | *Optional* |
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+
+#### Timer.end(slug) 
+
 Stop timing an event.
 
-**Kind**: instance method of [<code>Timer</code>](#Timer)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| slug | <code>string</code> | The slug to supplied to `start()`. |
 
-<a name="Timer+setTime"></a>
 
-### timer.setTime(slug, [label], ms) ⇒ <code>undefined</code>
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| slug | `string`  | - The slug to supplied to `start()`. | &nbsp; |
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+
+#### Timer.setTime(slug[, label], ms) 
+
 Set the timing for an event.
 
-**Kind**: instance method of [<code>Timer</code>](#Timer)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| slug | <code>string</code> | The slug to use for timing. |
-| [label] | <code>string</code> | Label to use in the server-timing header. |
-| ms | <code>number</code> | Time, in milliseconds.  Can be a float. |
 
-<a name="Timer+timePromise"></a>
 
-### timer.timePromise(slug, [label], promise) ⇒ <code>undefined</code>
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| slug | `string`  | - The slug to use for timing. | &nbsp; |
+| label | `string`  | - Label to use in the server-timing header. | *Optional* |
+| ms | `number`  | - Time, in milliseconds. Can be a float. | &nbsp; |
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+
+#### Timer.timePromise(slug[, label], promise) 
+
 Time the duration of a promise.
 
-**Kind**: instance method of [<code>Timer</code>](#Timer)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| slug | <code>string</code> | The slug to use for timing. |
-| [label] | <code>string</code> | Label to use in the server-timing header. |
-| promise | <code>Promise</code> | The promise to time. |
 
-<a name="Timer+getHeader"></a>
 
-### timer.getHeader() ⇒ <code>string</code>
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| slug | `string`  | - The slug to use for timing. | &nbsp; |
+| label | `string`  | - Label to use in the server-timing header. | *Optional* |
+| promise | `Promise`  | - The promise to time. | &nbsp; |
+
+
+
+
+##### Returns
+
+
+- `Promise`  - Returns the passed in `promise`.
+
+
+
+#### Timer.getHeader() 
+
 Return the server-timing header.
 
-**Kind**: instance method of [<code>Timer</code>](#Timer)  
-**Returns**: <code>string</code> - - The header.  
-<a name="middleware"></a>
 
-## middleware([options]) ⇒ <code>function</code>
+
+
+
+
+##### Returns
+
+
+- `string`  - The header.
+
+
+
+#### middleware([options&#x3D;{}]) 
+
 Returns an express-style middleware that automatically adds `res.serverTiming` to the resposne object.
 
-**Kind**: global function  
-**Returns**: <code>function</code> - A `function(req, res, next)` express-style middleware.  Note that `next` is optional.  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [options] | <code>Object</code> | <code>{}</code> | Options. |
-| [options.devOnly] | <code>boolean</code> | <code>true</code> | If truthy, then only add a 'server-timing' header when NODE_ENV   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential   attacker, so be careful with this. |
-| [options.clock] | <code>string</code> | <code>&quot;hr&quot;</code> | The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`   instead. |
 
-<a name="addToResponse"></a>
 
-## addToResponse(res, [options]) ⇒ <code>undefined</code>
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| options&#x3D;{} | `Object`  | - Options. | *Optional* |
+| options.devOnly&#x3D;true | `boolean`  | - If truthy, then only add a 'server-timing' header when NODE_ENV   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential
+  attacker, so be careful with this. | *Optional* |
+| options.clock&#x3D;hr | `string`  | - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`
+  instead. | *Optional* |
+
+
+
+
+##### Returns
+
+
+- `function`  A `function(req, res, next)` express-style middleware. Note that `next` is optional.
+
+
+
+#### addToResponse(res[, options&#x3D;{}]) 
+
 Sets up a request to
 
-**Kind**: global function  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| res | <code>http.ServerResponse</code> |  | The resposne object.  `res.serverTiming` will be set to a new `Timer` object.   `res.setHeader()` will automatically be called with the new header. |
-| [options] | <code>Object</code> | <code>{}</code> | Options. |
-| [options.devOnly] | <code>boolean</code> | <code>true</code> | If truthy, then only add a 'server-timing' header when NODE_ENV   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential   attacker, so be careful with this. |
-| [options.clock] | <code>string</code> |  | The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`   instead. |
 
-<a name="start"></a>
 
-## start(slug, [label]) ⇒ <code>function</code>
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| res | `http.ServerResponse`  | - The resposne object. `res.serverTiming` will be set to a new `Timer` object.   `res.setHeader()` will automatically be called with the new header. | &nbsp; |
+| options&#x3D;{} | `Object`  | - Options. | *Optional* |
+| options.devOnly&#x3D;true | `boolean`  | - If truthy, then only add a 'server-timing' header when NODE_ENV   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential
+  attacker, so be careful with this. | *Optional* |
+| options.clock | `string`  | - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`
+  instead. | *Optional* |
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+
+#### start(slug[, label]) 
+
 Returns a mini-middleware that calls `res.serverTiming.start(slug, label)`.
 
-**Kind**: global function  
-**Returns**: <code>function</code> - - Middleware function.  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| slug | <code>string</code> | The slug to use for timing.  The same slug must be supplied to `end(slug)` in order   for this timing to show up in the final header. |
-| [label] | <code>string</code> | Label to use in the server-timing header. |
 
-<a name="end"></a>
 
-## end(slug) ⇒ <code>function</code>
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| slug | `string`  | - The slug to use for timing. The same slug must be supplied to `end(slug)` in order   for this timing to show up in the final header. | &nbsp; |
+| label | `string`  | - Label to use in the server-timing header. | *Optional* |
+
+
+
+
+##### Returns
+
+
+- `function`  - Middleware function.
+
+
+
+#### end(slug) 
+
 Returns a mini-middleware that calls `res.serverTiming.end(slug, label)`.
 
-**Kind**: global function  
-**Returns**: <code>function</code> - - Middleware function.  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| slug | <code>string</code> | The slug to supplied to `start()`. |
 
-<a name="timeMiddleware"></a>
 
-## timeMiddleware(slug, [label], middleware) ⇒ <code>function</code>
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| slug | `string`  | - The slug to supplied to `start()`. | &nbsp; |
+
+
+
+
+##### Returns
+
+
+- `function`  - Middleware function.
+
+
+
+#### timeMiddleware(slug[, label], middleware) 
+
 Wraps a middleware and adds timing data for it to the server-timing header.
 
-**Kind**: global function  
-**Returns**: <code>function</code> - - Middleware function.  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| slug | <code>string</code> | The slug to use for timing. |
-| [label] | <code>string</code> | Label to use in the server-timing header. |
-| middleware | <code>function</code> | The `fn(req, res, next)` function to time.  Note that the function must call   `next()` in order to be timed. |
 
-<a name="createTimer"></a>
 
-## createTimer([options]) ⇒ [<code>Timer</code>](#Timer)
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| slug | `string`  | - The slug to use for timing. | &nbsp; |
+| label | `string`  | - Label to use in the server-timing header. | *Optional* |
+| middleware | `function`  | - The `fn(req, res, next)` function to time. Note that the function must call   `next()` in order to be timed. | &nbsp; |
+
+
+
+
+##### Returns
+
+
+- `function`  - Middleware function.
+
+
+
+#### createTimer([options&#x3D;{}]) 
+
 Create a new Timer object.
 
-**Kind**: global function  
-**Returns**: [<code>Timer</code>](#Timer) - - New Timer object.  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [options] | <code>object</code> | <code>{}</code> | Options. |
-| [options.clock] | <code>string</code> | <code>&quot;hr&quot;</code> | The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`   instead. |
 
+
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| options&#x3D;{} | `object`  | - Options. | *Optional* |
+| options.clock&#x3D;hr | `string`  | - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`
+  instead. | *Optional* |
+
+
+
+
+##### Returns
+
+
+- `Timer`  - New Timer object.
+
+
+
+
+*Documentation generated with [doxdox](https://github.com/neogeek/doxdox).*

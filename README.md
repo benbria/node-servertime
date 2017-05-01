@@ -10,7 +10,6 @@ There are other libraries out there that do this, but this one is the best.  ;)
   platform that doesn't have `process.hrtime()`.
 * No server-timing headers by default on prod.
 * No dependencies on Express, but provides some handy middleware helpers if you're on Express.
-* No external dependencies at all.
 
 ## Documentation
 

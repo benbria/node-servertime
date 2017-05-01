@@ -31,7 +31,6 @@ class Timer {
      * @param {string} slug - The slug to use for timing.  The same slug must be supplied to `end(slug)` in order
      *   for this timing to show up in the final header.
      * @param {string} [label] - Label to use in the server-timing header.
-     * @return {undefined}
      */
     start(slug, label=null) {
         if(this._isDummy) {return;}
@@ -48,7 +47,6 @@ class Timer {
     /**
      * Stop timing an event.
      * @param {string} slug - The slug to supplied to `start()`.
-     * @return {undefined}
      */
     end(slug) {
         if(this._isDummy) {return;}
@@ -63,7 +61,6 @@ class Timer {
      * @param {string} slug - The slug to use for timing.
      * @param {string} [label] - Label to use in the server-timing header.
      * @param {number} ms - Time, in milliseconds.  Can be a float.
-     * @return {undefined}
      */
     setTime(slug, label, ms) {
         if(ms === undefined) {
@@ -82,7 +79,7 @@ class Timer {
      * @param {string} slug - The slug to use for timing.
      * @param {string} [label] - Label to use in the server-timing header.
      * @param {Promise} promise - The promise to time.
-     * @return {undefined}
+     * @return {Promise} - Returns the passed in `promise`.
      */
     timePromise(slug, label, promise) {
         if(!promise) {
@@ -147,7 +144,6 @@ export function middleware(options={}) {
  * @param  {string} [options.clock] - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,
  *   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`
  *   instead.
- * @return {undefined}
  */
 export function addToResponse(res, options={}) {
     const devOnly = ('devOnly' in options) ? options.devOnly : true;

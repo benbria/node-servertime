@@ -7,7 +7,7 @@
     "test": "eslint --ext js src",
     "build": "npm run build:src && npm run build:doc",
     "build:src": "babel -s -d build src",
-    "build:doc": "jsdoc2md src/index.js > api.md",
+    "build:doc": "doxdox src/index.js --layout markdown --output api.md",
     "clean": "rm -rf build",
     "prepublish": "npm run clean && npm run build && npm test"
   },
@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/benbria/node-servertime#readme",
   "dependencies": {
-    "jsdoc-to-markdown": "^3.0.0",
     "on-headers": "^1.0.1"
   },
   "devDependencies": {
@@ -35,8 +34,9 @@
     "babel-core": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.24.1",
+    "doxdox": "^2.0.2",
     "eslint": "^3.19.0",
-    "eslint-config-benbria": "^1.0.2",
+    "eslint-config-benbria": "^1.0.3",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.10.3"
   }
