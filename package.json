@@ -1,6 +1,6 @@
 {
   "name": "servertime",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Add server-timing header to your node.js app, with nanosecond precision.",
   "main": "build/index.js",
   "scripts": {
