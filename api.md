@@ -1,4 +1,4 @@
-# [servertime](https://github.com/benbria/node-servertime#readme) *2.0.1*
+# [servertime](https://github.com/benbria/node-servertime#readme) *2.0.2*
 
 > Add server-timing header to your node.js app, with nanosecond precision.
 
