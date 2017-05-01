@@ -39,12 +39,12 @@ app.use(servertime.timeMiddleware('routing', router));
 http.createServer((req, res) => {
     servertime.addToRequest(req, res, {devOnly: true});
 
-    req.serverTiming.start('blah');
+    res.serverTiming.start('blah');
     // do some stuff
-    req.serverTiming.end('blah');
+    res.serverTiming.end('blah');
 
     let pUser = getUserFromDb();
-    pUser = req.serverTiming.timePromise('getuser', 'Get User', pUser);
+    pUser = res.serverTiming.timePromise('getuser', 'Get User', pUser);
     pUser.then(user => {
         // Header will be added automatically
         res.end('Done');

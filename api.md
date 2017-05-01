@@ -10,9 +10,9 @@
 
 <dl>
 <dt><a href="#middleware">middleware([options])</a> ⇒ <code>function</code></dt>
-<dd><p>Returns an express-style middleware that can be used to add a &#39;server-timing&#39; header to the response.</p>
+<dd><p>Returns an express-style middleware that automatically adds <code>res.serverTiming</code> to the resposne object.</p>
 </dd>
-<dt><a href="#addToRequest">addToRequest(req, res, [options])</a> ⇒ <code>undefined</code></dt>
+<dt><a href="#addToResponse">addToResponse(res, [options])</a> ⇒ <code>undefined</code></dt>
 <dd><p>Sets up a request to</p>
 </dd>
 <dt><a href="#start">start(slug, [label])</a> ⇒ <code>function</code></dt>
@@ -102,7 +102,7 @@ Return the server-timing header.
 <a name="middleware"></a>
 
 ## middleware([options]) ⇒ <code>function</code>
-Returns an express-style middleware that can be used to add a 'server-timing' header to the response.
+Returns an express-style middleware that automatically adds `res.serverTiming` to the resposne object.
 
 **Kind**: global function  
 **Returns**: <code>function</code> - A `function(req, res, next)` express-style middleware.  Note that `next` is optional.  
@@ -113,17 +113,16 @@ Returns an express-style middleware that can be used to add a 'server-timing' he
 | [options.devOnly] | <code>boolean</code> | <code>true</code> | If truthy, then only add a 'server-timing' header when NODE_ENV   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential   attacker, so be careful with this. |
 | [options.clock] | <code>string</code> | <code>&quot;hr&quot;</code> | The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`   instead. |
 
-<a name="addToRequest"></a>
+<a name="addToResponse"></a>
 
-## addToRequest(req, res, [options]) ⇒ <code>undefined</code>
+## addToResponse(res, [options]) ⇒ <code>undefined</code>
 Sets up a request to
 
 **Kind**: global function  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| req | <code>http.IncomingMessage</code> |  | The request object.  `req.serverTiming` will be set to a new `Timer` object. |
-| res | <code>http.ServerResponse</code> |  | The resposne object.  `res.setHeader()` will automatically be called with the   new header. |
+| res | <code>http.ServerResponse</code> |  | The resposne object.  `res.serverTiming` will be set to a new `Timer` object.   `res.setHeader()` will automatically be called with the new header. |
 | [options] | <code>Object</code> | <code>{}</code> | Options. |
 | [options.devOnly] | <code>boolean</code> | <code>true</code> | If truthy, then only add a 'server-timing' header when NODE_ENV   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential   attacker, so be careful with this. |
 | [options.clock] | <code>string</code> |  | The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`   instead. |

@@ -117,7 +117,7 @@ class Timer {
 }
 
 /**
- * Returns an express-style middleware that can be used to add a 'server-timing' header to the response.
+ * Returns an express-style middleware that automatically adds `res.serverTiming` to the resposne object.
  *
  * @param  {Object} [options={}] - Options.
  * @param  {boolean} [options.devOnly=true] - If truthy, then only add a 'server-timing' header when NODE_ENV
@@ -130,7 +130,7 @@ class Timer {
  */
 export function middleware(options={}) {
     return function(req, res, next) {
-        addToRequest(req, res, options);
+        addToResponse(res, options);
         if(next) {next();}
     };
 }
@@ -138,9 +138,8 @@ export function middleware(options={}) {
 /**
  * Sets up a request to
  *
- * @param {http.IncomingMessage} req - The request object.  `req.serverTiming` will be set to a new `Timer` object.
- * @param {http.ServerResponse} res - The resposne object.  `res.setHeader()` will automatically be called with the
- *   new header.
+ * @param {http.ServerResponse} res - The resposne object.  `res.serverTiming` will be set to a new `Timer` object.
+ *   `res.setHeader()` will automatically be called with the new header.
  * @param  {Object} [options={}] - Options.
  * @param  {boolean} [options.devOnly=true] - If truthy, then only add a 'server-timing' header when NODE_ENV
  *   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential
@@ -150,7 +149,7 @@ export function middleware(options={}) {
  *   instead.
  * @return {undefined}
  */
-export function addToRequest(req, res, options={}) {
+export function addToResponse(res, options={}) {
     const devOnly = ('devOnly' in options) ? options.devOnly : true;
     const clock = CLOCKS[options.clock || 'hr'];
 
