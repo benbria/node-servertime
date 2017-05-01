@@ -20,7 +20,7 @@ const CLOCKS = {
  * Keeps track of timing data for events and turns that data into a `server-timing` header.
  */
 class Timer {
-    constructor(options) {
+    constructor(options={}) {
         this._isDummy = options.isDummy;
         this._clock = options.clock;
         this._records = {};
@@ -123,7 +123,7 @@ class Timer {
  * @param  {boolean} [options.devOnly=true] - If truthy, then only add a 'server-timing' header when NODE_ENV
  *   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential
  *   attacker, so be careful with this.
- * @param  {string} [options.clock] - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,
+ * @param  {string} [options.clock=hr] - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,
  *   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`
  *   instead.
  * @return {function} A `function(req, res, next)` express-style middleware.  Note that `next` is optional.
@@ -228,8 +228,12 @@ export function timeMiddleware(slug, label, middleware) {
 
 /**
  * Create a new Timer object.
+ * @param  {object} [options={}] - Options.
+ * @param  {string} [options.clock=hr] - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,
+ *   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`
+ *   instead.
  * @return {Timer} - New Timer object.
  */
-export function createTimer() {
-    return new Timer();
+export function createTimer(options={}) {
+    return new Timer(options);
 }

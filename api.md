@@ -24,7 +24,7 @@
 <dt><a href="#timeMiddleware">timeMiddleware(slug, [label], middleware)</a> ⇒ <code>function</code></dt>
 <dd><p>Wraps a middleware and adds timing data for it to the server-timing header.</p>
 </dd>
-<dt><a href="#createTimer">createTimer()</a> ⇒ <code><a href="#Timer">Timer</a></code></dt>
+<dt><a href="#createTimer">createTimer([options])</a> ⇒ <code><a href="#Timer">Timer</a></code></dt>
 <dd><p>Create a new Timer object.</p>
 </dd>
 </dl>
@@ -111,7 +111,7 @@ Returns an express-style middleware that can be used to add a 'server-timing' he
 | --- | --- | --- | --- |
 | [options] | <code>Object</code> | <code>{}</code> | Options. |
 | [options.devOnly] | <code>boolean</code> | <code>true</code> | If truthy, then only add a 'server-timing' header when NODE_ENV   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential   attacker, so be careful with this. |
-| [options.clock] | <code>string</code> |  | The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`   instead. |
+| [options.clock] | <code>string</code> | <code>&quot;hr&quot;</code> | The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`   instead. |
 
 <a name="addToRequest"></a>
 
@@ -169,8 +169,14 @@ Wraps a middleware and adds timing data for it to the server-timing header.
 
 <a name="createTimer"></a>
 
-## createTimer() ⇒ [<code>Timer</code>](#Timer)
+## createTimer([options]) ⇒ [<code>Timer</code>](#Timer)
 Create a new Timer object.
 
 **Kind**: global function  
 **Returns**: [<code>Timer</code>](#Timer) - - New Timer object.  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [options] | <code>object</code> | <code>{}</code> | Options. |
+| [options.clock] | <code>string</code> | <code>&quot;hr&quot;</code> | The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`   instead. |
+
