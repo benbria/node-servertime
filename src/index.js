@@ -234,5 +234,6 @@ export function timeMiddleware(slug, label, middleware) {
  * @return {Timer} - New Timer object.
  */
 export function createTimer(options={}) {
-    return new Timer(options);
+    const clock = CLOCKS[options.clock || 'hr'];
+    return new Timer({clock});
 }
