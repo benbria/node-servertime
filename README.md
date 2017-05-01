@@ -14,7 +14,7 @@ There are other libraries out there that do this, but this one is the best.  ;)
 
 ## Documentation
 
-See the [api docs here]('./api.md').
+See the [api docs here](https://github.com/benbria/node-servertime/blob/master/api.md).
 
 ## Examples:
 
