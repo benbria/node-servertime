@@ -36,7 +36,7 @@ app.use(servertime.timeMiddleware('routing', router));
 
 /* -- Use in non-express app -- */
 http.createServer((req, res) => {
-    servertime.addToRequest(req, res, {devOnly: true});
+    servertime.addToResponse(res, {devOnly: true});
 
     res.serverTiming.start('blah');
     // do some stuff
