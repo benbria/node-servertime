@@ -38,10 +38,12 @@ app.use(servertime.timeMiddleware('routing', router));
 http.createServer((req, res) => {
     servertime.addToResponse(res, {devOnly: true});
 
+    // Time something
     res.serverTiming.start('blah');
     // do some stuff
     res.serverTiming.end('blah');
 
+    // Time a promise
     let pUser = getUserFromDb();
     pUser = res.serverTiming.timePromise('getuser', 'Get User', pUser);
     pUser.then(user => {
