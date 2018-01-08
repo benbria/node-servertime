@@ -108,7 +108,7 @@ class Timer {
         return Object.keys(this._records)
         // Filter out any results where we never called 'end'
         .filter(slug => 'time' in this._records[slug])
-        .map(slug => `${slug}=${this._records[slug].time}; "${this._records[slug].label}"`)
+        .map(slug => `${slug}; dur=${this._records[slug].time}; desc="${this._records[slug].label}"`)
         .join(', ');
     }
 }
