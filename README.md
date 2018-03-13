@@ -18,7 +18,7 @@ See the [api docs here](https://github.com/benbria/node-servertime/blob/master/a
 ## Examples:
 
 ```js
-import servertime from 'servertime';
+import * as servertime from 'servertime';
 
 /* -- Use in express app -- */
 const app = express();
