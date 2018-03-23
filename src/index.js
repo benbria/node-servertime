@@ -162,9 +162,11 @@ export function addToResponse(res, options={}) {
     res.serverTiming = new Timer({clock});
 
     onHeaders(res, function() {
-        if(!this.getHeader('server-timing')) {
-            this.setHeader('server-timing', res.serverTiming.getHeader());
-        }
+        const headerString = []
+            .concat(this.getHeader('server-timing') || [])
+            .concat(res.serverTiming.getHeader() || [])
+            .join(', ');
+        this.setHeader('server-timing', headerString);
     });
 }
 
