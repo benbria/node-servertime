@@ -28,7 +28,7 @@ app.use(servertime.middleware({devOnly: true}));
 app.use(servertime.start('prerouting'));
 app.use(sessionMiddleware);
 app.use(otherMiddleware);
-app.use(servertime.stop('prerouting');
+app.use(servertime.end('prerouting');
 
 // Time a single middleware
 app.use(servertime.timeMiddleware('routing', router));
