@@ -147,10 +147,8 @@ Returns an express-style middleware that automatically adds `res.serverTiming` t
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
 | options&#x3D;{} | `Object`  | - Options. | *Optional* |
-| options.devOnly&#x3D;true | `boolean`  | - If truthy, then only add a 'server-timing' header when NODE_ENV   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential
-  attacker, so be careful with this. | *Optional* |
-| options.clock&#x3D;hr | `string`  | - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`
-  instead. | *Optional* |
+| options.devOnly&#x3D;true | `boolean`  | - If truthy, then only add a 'server-timing' header when NODE_ENV   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential<br>  attacker, so be careful with this. | *Optional* |
+| options.clock&#x3D;hr | `string`  | - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`<br>  instead. | *Optional* |
 
 
 
@@ -175,10 +173,8 @@ Sets up a request to
 | ---- | ---- | ----------- | -------- |
 | res | `http.ServerResponse`  | - The resposne object. `res.serverTiming` will be set to a new `Timer` object.   `res.setHeader()` will automatically be called with the new header. | &nbsp; |
 | options&#x3D;{} | `Object`  | - Options. | *Optional* |
-| options.devOnly&#x3D;true | `boolean`  | - If truthy, then only add a 'server-timing' header when NODE_ENV   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential
-  attacker, so be careful with this. | *Optional* |
-| options.clock | `string`  | - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`
-  instead. | *Optional* |
+| options.devOnly&#x3D;true | `boolean`  | - If truthy, then only add a 'server-timing' header when NODE_ENV   is not "production".  Server timing information can reveal a lot about your infrastructure to a potential<br>  attacker, so be careful with this. | *Optional* |
+| options.clock | `string`  | - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`<br>  instead. | *Optional* |
 
 
 
@@ -274,8 +270,7 @@ Create a new Timer object.
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
 | options&#x3D;{} | `object`  | - Options. | *Optional* |
-| options.clock&#x3D;hr | `string`  | - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`
-  instead. | *Optional* |
+| options.clock&#x3D;hr | `string`  | - The default is 'hr' which uses `process.hrtime()` to get nanosecond accuracy,   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`<br>  instead. | *Optional* |
 
 
 
