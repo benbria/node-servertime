@@ -16,7 +16,7 @@ describe('start and end', function() {
 
     it('should time a call', async function() {
         const app = express();
-        app.use(servertime.middleware({devOnly: true}));
+        app.use(servertime.middleware({ devOnly: true }));
         app.get(
             '/hello',
             servertime.start('a'),
@@ -34,7 +34,7 @@ describe('start and end', function() {
 
     it('should optionally include description', async function() {
         const app = express();
-        app.use(servertime.middleware({devOnly: true}));
+        app.use(servertime.middleware({ devOnly: true }));
         app.get(
             '/hello',
             servertime.start('a', 'the thing'),
@@ -52,7 +52,7 @@ describe('start and end', function() {
 
     it('should set multiple timers', async function() {
         const app = express();
-        app.use(servertime.middleware({devOnly: true}));
+        app.use(servertime.middleware({ devOnly: true }));
         app.get(
             '/hello',
             servertime.start('a', 'the thing'),
@@ -71,7 +71,9 @@ describe('start and end', function() {
         );
 
         const fetch = makeFetch(app);
-        await fetch('/hello').expectHeader('Server-Timing', 'a;desc="the thing";dur=10, b;desc="other thing";dur=1');
+        await fetch('/hello').expectHeader(
+            'Server-Timing',
+            'a;desc="the thing";dur=10, b;desc="other thing";dur=1'
+        );
     });
-
 });

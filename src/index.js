@@ -2,25 +2,30 @@ import onHeaders from 'on-headers';
 
 const CLOCKS = {
     ms: {
-        start() {return Date.now();},
-        diff(start) {return Date.now() - start;}
+        start() {
+            return Date.now();
+        },
+        diff(start) {
+            return Date.now() - start;
+        },
     },
     hr: {
-        start() {return process.hrtime();},
+        start() {
+            return process.hrtime();
+        },
         diff(start) {
             const [seconds, nanos] = process.hrtime(start);
             // Convert to milliseconds
-            return (seconds * 1000) + (nanos / 1000000);
-        }
-    }
+            return seconds * 1000 + nanos / 1000000;
+        },
+    },
 };
-
 
 /**
  * Keeps track of timing data for events and turns that data into a `server-timing` header.
  */
 class Timer {
-    constructor(options={}) {
+    constructor(options = {}) {
         this._isDummy = options.isDummy;
         this._clock = options.clock;
         this._records = {};
@@ -32,14 +37,16 @@ class Timer {
      *   for this timing to show up in the final header.
      * @param {string} [label] - Label to use in the server-timing header.
      */
-    start(slug, label=null) {
-        if(this._isDummy) {return;}
-        if(this._records[slug]) {
+    start(slug, label = null) {
+        if (this._isDummy) {
+            return;
+        }
+        if (this._records[slug]) {
             console.error(`serverTime: Attempting to add slug we've already seen ${slug}`);
         } else {
             this._records[slug] = {
                 label: label || slug,
-                start: this._clock.start()
+                start: this._clock.start(),
             };
         }
     }
@@ -49,9 +56,11 @@ class Timer {
      * @param {string} slug - The slug to supplied to `start()`.
      */
     end(slug) {
-        if(this._isDummy) {return;}
+        if (this._isDummy) {
+            return;
+        }
         const record = this._records[slug];
-        if(record) {
+        if (record) {
             record.time = this._clock.diff(record.start);
         }
     }
@@ -63,14 +72,14 @@ class Timer {
      * @param {number} ms - Time, in milliseconds.  Can be a float.
      */
     setTime(slug, label, ms) {
-        if(ms === undefined) {
+        if (ms === undefined) {
             ms = label;
             label = null;
         }
 
         this._records[slug] = {
             label: label || slug,
-            time: ms
+            time: ms,
         };
     }
 
@@ -82,17 +91,14 @@ class Timer {
      * @return {Promise} - Returns the passed in `promise`.
      */
     timePromise(slug, label, promise) {
-        if(!promise) {
+        if (!promise) {
             promise = label;
             label = slug;
         }
 
-        if(!this._isDummy) {
+        if (!this._isDummy) {
             this.start(slug, label);
-            promise.then(
-                () => this.end(slug),
-                () => this.end(slug)
-            );
+            promise.then(() => this.end(slug), () => this.end(slug));
         }
 
         return promise;
@@ -103,20 +109,24 @@ class Timer {
      * @return {string} - The header.
      */
     getHeader() {
-        if(this._isDummy) {return null;}
+        if (this._isDummy) {
+            return null;
+        }
 
-        return Object.keys(this._records)
-        // Filter out any results where we never called 'end'
-        .filter(slug => 'time' in this._records[slug])
-        .map(slug => {
-            const record = this._records[slug];
-            if(!record.label || record.label === slug) {
-                return `${slug};dur=${this._records[slug].time}`;
-            } else {
-                return `${slug};desc="${this._records[slug].label}";dur=${this._records[slug].time}`;
-            }
-        })
-        .join(', ');
+        return (
+            Object.keys(this._records)
+                // Filter out any results where we never called 'end'
+                .filter(slug => 'time' in this._records[slug])
+                .map(slug => {
+                    const record = this._records[slug];
+                    if (!record.label || record.label === slug) {
+                        return `${slug};dur=${this._records[slug].time}`;
+                    } else {
+                        return `${slug};desc="${this._records[slug].label}";dur=${this._records[slug].time}`;
+                    }
+                })
+                .join(', ')
+        );
     }
 }
 
@@ -132,10 +142,12 @@ class Timer {
  *   instead.
  * @return {function} A `function(req, res, next)` express-style middleware.  Note that `next` is optional.
  */
-export function middleware(options={}) {
+export function middleware(options = {}) {
     return function(req, res, next) {
         addToResponse(res, options);
-        if(next) {next();}
+        if (next) {
+            next();
+        }
     };
 }
 
@@ -152,29 +164,30 @@ export function middleware(options={}) {
  *   but if you're on a platform that doesn't support `process.hrtime()` you can pass in 'ms' to use `Date.now()`
  *   instead.
  */
-export function addToResponse(res, options={}) {
-    const devOnly = ('devOnly' in options) ? options.devOnly : true;
+export function addToResponse(res, options = {}) {
+    const devOnly = 'devOnly' in options ? options.devOnly : true;
     const clock = CLOCKS[options.clock || 'hr'];
 
     // Don't add this twice.
-    if(res.serverTiming) {return;}
-
-    // If we're not in production, then do nothing.  Add a `dummy` serverTiming so caller code doesn't
-    // need to change.
-    if(devOnly && process.env.NODE_ENV === 'production') {
-        res.serverTiming = new Timer({isDummy: true, clock});
+    if (res.serverTiming) {
         return;
     }
 
-    res.serverTiming = new Timer({clock});
+    // If we're not in production, then do nothing.  Add a `dummy` serverTiming so caller code doesn't
+    // need to change.
+    if (devOnly && process.env.NODE_ENV === 'production') {
+        res.serverTiming = new Timer({ isDummy: true, clock });
+        return;
+    }
+
+    res.serverTiming = new Timer({ clock });
 
     onHeaders(res, function() {
-        if(!this.getHeader('server-timing')) {
+        if (!this.getHeader('server-timing')) {
             this.setHeader('server-timing', res.serverTiming.getHeader());
         }
     });
 }
-
 
 /**
  * Returns a mini-middleware that calls `res.serverTiming.start(slug, label)`.
@@ -184,10 +197,12 @@ export function addToResponse(res, options={}) {
  * @param {string} [label] - Label to use in the server-timing header.
  * @return {function} - Middleware function.
  */
-export function start(slug, label=null) {
+export function start(slug, label = null) {
     return (req, res, next) => {
         res.serverTiming.start(slug, label);
-        if(next) {next();}
+        if (next) {
+            next();
+        }
     };
 }
 
@@ -200,7 +215,9 @@ export function start(slug, label=null) {
 export function end(slug) {
     return (req, res, next) => {
         res.serverTiming.end(slug);
-        if(next) {next();}
+        if (next) {
+            next();
+        }
     };
 }
 
@@ -214,7 +231,7 @@ export function end(slug) {
  * @return {function} - Middleware function.
  */
 export function timeMiddleware(slug, label, middleware) {
-    if(!middleware) {
+    if (!middleware) {
         middleware = label;
         label = slug;
     }
@@ -236,9 +253,9 @@ export function timeMiddleware(slug, label, middleware) {
  *   instead.
  * @return {Timer} - New Timer object.
  */
-export function createTimer(options={}) {
+export function createTimer(options = {}) {
     const clock = CLOCKS[options.clock || 'hr'];
-    return new Timer({clock});
+    return new Timer({ clock });
 }
 
 export default {
