@@ -108,7 +108,14 @@ class Timer {
         return Object.keys(this._records)
         // Filter out any results where we never called 'end'
         .filter(slug => 'time' in this._records[slug])
-        .map(slug => `${slug}=${this._records[slug].time}; "${this._records[slug].label}"`)
+        .map(slug => {
+            const record = this._records[slug];
+            if(!record.label || record.label === slug) {
+                return `${slug};dur=${this._records[slug].time}`;
+            } else {
+                return `${slug};desc="${this._records[slug].label}";dur=${this._records[slug].time}`;
+            }
+        })
         .join(', ');
     }
 }
@@ -233,6 +240,7 @@ export function createTimer(options={}) {
     const clock = CLOCKS[options.clock || 'hr'];
     return new Timer({clock});
 }
+
 export default {
     middleware,
     addToResponse,
