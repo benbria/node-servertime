@@ -4,7 +4,7 @@
   "description": "Add server-timing header to your node.js app, with nanosecond precision.",
   "main": "build/index.js",
   "scripts": {
-    "test": "eslint --ext js src",
+    "test": "eslint --ext js src && mocha test/**/*.js",
     "build": "npm run build:src && npm run build:doc",
     "build:src": "babel -s -d build src",
     "build:doc": "doxdox src/index.js --layout markdown --output api.md",
