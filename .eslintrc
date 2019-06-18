@@ -1,1 +1,6 @@
-{"extends": "benbria"}
+{
+    "extends": "benbria",
+    "rules": {
+        "comma-dangle": "off"
+    }
+}
