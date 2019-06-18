@@ -233,3 +233,11 @@ export function createTimer(options={}) {
     const clock = CLOCKS[options.clock || 'hr'];
     return new Timer({clock});
 }
+export default {
+    middleware,
+    addToResponse,
+    start,
+    end,
+    timeMiddleware,
+    createTimer,
+};
