@@ -1,6 +1,6 @@
 {
     "name": "servertime",
-    "version": "3.1.0",
+    "version": "3.1.1",
     "description": "Add server-timing header to your node.js app, with nanosecond precision.",
     "files": [
         "dist/**/*"
