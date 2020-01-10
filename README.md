@@ -2,14 +2,14 @@ Add 'server-timing' headers to your node.js server.
 
 If you're wondering why this would be useful, go check out [this article](https://ma.ttias.be/server-timings-chrome-devtools/).
 
-There are other libraries out there that do this, but this one is the best.  ;)
+There are other libraries out there that do this, but this one is the best. ;)
 
 ## Features:
 
-* Sub-millisecond accuracy with `process.hrtime()`, but falls back to millisecond accuracy if you're on some weird
-  platform that doesn't have `process.hrtime()`.
-* No server-timing headers by default on prod.
-* No dependencies on Express, but provides some handy middleware helpers if you're on Express.
+-   Sub-millisecond accuracy with `process.hrtime()`, but falls back to millisecond accuracy if you're on some weird
+    platform that doesn't have `process.hrtime()`.
+-   No server-timing headers by default on prod.
+-   No dependencies on Express, but provides some handy middleware helpers if you're on Express.
 
 ## Documentation
 
@@ -32,7 +32,6 @@ app.use(servertime.stop('prerouting');
 
 // Time a single middleware
 app.use(servertime.timeMiddleware('routing', router));
-
 
 /* -- Use in non-express app -- */
 http.createServer((req, res) => {

@@ -1,11 +1,11 @@
-import sinon from 'sinon';
 import express from 'express';
+import sinon from 'sinon';
 import { makeFetch } from 'supertest-fetch';
-
 import servertime from '../src';
 
 describe('start and end', function() {
-    let clock;
+    let clock: sinon.SinonFakeTimers;
+
     beforeEach(function() {
         clock = sinon.useFakeTimers();
     });
@@ -20,12 +20,12 @@ describe('start and end', function() {
         app.get(
             '/hello',
             servertime.start('a'),
-            (req, res, next) => {
+            (_req, _res, next) => {
                 clock.tick(10);
                 next();
             },
             servertime.end('a'),
-            (req, res) => res.send('done')
+            (_req, res) => res.send('done')
         );
 
         const fetch = makeFetch(app);
@@ -38,12 +38,12 @@ describe('start and end', function() {
         app.get(
             '/hello',
             servertime.start('a', 'the thing'),
-            (req, res, next) => {
+            (_req, _res, next) => {
                 clock.tick(10);
                 next();
             },
             servertime.end('a'),
-            (req, res) => res.send('done')
+            (_req, res) => res.send('done')
         );
 
         const fetch = makeFetch(app);
@@ -56,18 +56,18 @@ describe('start and end', function() {
         app.get(
             '/hello',
             servertime.start('a', 'the thing'),
-            (req, res, next) => {
+            (_req, _res, next) => {
                 clock.tick(10);
                 next();
             },
             servertime.end('a'),
             servertime.start('b', 'other thing'),
-            (req, res, next) => {
+            (_req, _res, next) => {
                 clock.tick(1);
                 next();
             },
             servertime.end('b'),
-            (req, res) => res.send('done')
+            (_req, res) => res.send('done')
         );
 
         const fetch = makeFetch(app);
