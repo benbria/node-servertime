@@ -2,6 +2,9 @@
     "name": "servertime",
     "version": "3.0.0",
     "description": "Add server-timing header to your node.js app, with nanosecond precision.",
+    "files": [
+        "dist/**/*"
+    ],
     "main": "dist/index.js",
     "scripts": {
         "test": "tsc -p test && eslint --ext ts src && mocha 'test/**/*.@(js|ts)'",
