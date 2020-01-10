@@ -1,11 +1,13 @@
 import http from 'http';
 import onHeaders from 'on-headers';
 import { CLOCKS } from './clocks';
-import Timer from './Timer';
+import ServerTiming from './Timer';
+
+export { ServerTiming };
 
 declare module 'http' {
     interface ServerResponse {
-        serverTiming: Timer;
+        serverTiming: ServerTiming;
     }
 }
 
@@ -60,11 +62,11 @@ export function addToResponse(res: http.ServerResponse, options: ServertimeOptio
     // If we're not in production, then do nothing.  Add a `dummy` serverTiming so caller code doesn't
     // need to change.
     if (devOnly && process.env.NODE_ENV === 'production') {
-        res.serverTiming = new Timer({ isDummy: true, clock });
+        res.serverTiming = new ServerTiming({ isDummy: true, clock });
         return;
     }
 
-    res.serverTiming = new Timer({ clock });
+    res.serverTiming = new ServerTiming({ clock });
 
     onHeaders(res, function() {
         const header = res.serverTiming.getHeader();
@@ -150,7 +152,7 @@ export function timeMiddleware(slug: string, l: string | Middleware, mw?: Middle
  */
 export function createTimer(options: { clock?: keyof typeof CLOCKS } = {}) {
     const clock = CLOCKS[options.clock || 'hr'];
-    return new Timer({ clock });
+    return new ServerTiming({ clock });
 }
 
 export default {
